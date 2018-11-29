@@ -1,11 +1,18 @@
 # Parameters
-url = "http://scada.dorch.fr"
-publicId = "a921d8b0-c18c-11e8-ae2f-072f85677f46"
-entityId = "33b45590-c0ff-11e8-8f20-03447990b333"
+url = "http://scada.g-e"
+# Mekong
+publicId = "857c5b20-f3e5-11e8-9dbf-cbc1e37c11e3"
+entityId = "f0c9cc10-f3e4-11e8-9dbf-cbc1e37c11e3"
+interval = 15*60 # 15 minutes Time step (seconds)
 startDate = as.POSIXct("2018-09-27 00:00:00")
+
+# Halle hydraulique
+# publicId = "299cedc0-f3e9-11e8-9dbf-cbc1e37c11e3"
+# entityId = "18d56d50-f3e9-11e8-9dbf-cbc1e37c11e3"
+# interval = 60
+# startDate = as.POSIXct("2018-11-01 00:00:00")
+
 endDate = Sys.time()
-# Time step (seconds)
-interval = 15*60
 # Nb Time step by query
 nbTs = 100
 
@@ -48,7 +55,7 @@ for(key in keys) {
         endTsi = Epoch2StringMilli(Tsi)
         # Querying values
         values = tb_api$getValues(entityId, key, startTsi, endTsi, sInterval)
-        logdebug("Tsi = %i - Lenght = %i", Tsi, length(unlist(values))/2)
+        logdebug("key = %s (%i/%i) - Tsi = %i - Lenght = %i", key, which(keys == key), length(keys), Tsi, length(unlist(values))/2)
         # Merge dataframe rows
         if(length(unlist(values)) > 0) {
             df = rbind(df, matrix(unlist(values), ncol=2, byrow=T))
